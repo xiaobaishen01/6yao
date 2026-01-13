@@ -475,6 +475,65 @@ export default {
             flex-wrap: wrap;
         }
 
+        .result-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            overflow: visible;
+            height: auto;
+            min-height: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5vh;
+            border: 1px solid rgba(212, 165, 116, 0.1);
+        }
+
+        .result-left > .column-title {
+            flex-shrink: 0;
+        }
+
+        .result-left > .gua-judgment {
+            flex: 0 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .result-left > .gua-explanation {
+            flex: 0 1 auto;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .result-right {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5vh;
+            overflow: visible;
+            height: auto;
+            min-height: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            padding: 1.5vh;
+            border: 1px solid rgba(212, 165, 116, 0.1);
+        }
+
+        .result-right > .column-title {
+            flex-shrink: 0;
+        }
+
+        .result-right > #yaoTextSection {
+            flex: 0 1 auto;
+            max-height: 50%;
+            min-height: 0;
+            overflow-y: auto;
+        }
+
+        .result-right > .bian-gua {
+            flex: 0 0 auto;
+            max-height: none;
+            overflow-y: auto;
+        }
+
         .gua-symbol {
             font-size: 6vh;
             line-height: 1;
@@ -488,34 +547,6 @@ export default {
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
         }
 
-        .result-right {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5vh;
-            overflow: hidden;
-            height: 100%;
-            min-height: 0;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 12px;
-            padding: 1.5vh;
-            border: 1px solid rgba(212, 165, 116, 0.1);
-        }
-
-        .result-right > .column-title {
-            flex-shrink: 0;
-        }
-
-        .result-right > #yaoTextSection {
-            flex: 1;
-            min-height: 0;
-            overflow-y: auto;
-        }
-
-        .result-right > .bian-gua {
-            flex-shrink: 0;
-            max-height: 35%;
-            overflow-y: auto;
-        }
         
         .column-title {
             text-align: center;
@@ -755,20 +786,24 @@ export default {
                 display: flex;
                 flex-direction: column;
                 gap: clamp(0.8vh, 1.2vh, 1.5vh);
-                overflow-y: auto;
+                overflow: visible;
+                height: auto;
+                min-height: 0;
             }
             
             .result-left {
                 flex: 0 0 auto;
-                max-height: 40vh;
-                overflow-y: auto;
+                max-height: none;
+                overflow: visible;
                 gap: clamp(0.5vh, 0.8vh, 1vh);
             }
 
             .result-right {
-                flex: 1;
+                flex: 0 0 auto;
                 min-height: 0;
                 gap: clamp(0.5vh, 0.8vh, 1vh);
+                max-height: none;
+                overflow: visible;
             }
 
             .result-right > .column-title {
@@ -776,15 +811,16 @@ export default {
             }
 
             .result-right > #yaoTextSection {
-                flex: 1;
+                flex: 0 0 auto;
                 min-height: 0;
-                overflow-y: auto;
+                overflow: visible;
+                max-height: none;
             }
 
             .result-right > .bian-gua {
                 flex-shrink: 0;
-                max-height: 30vh;
-                overflow-y: auto;
+                max-height: none;
+                overflow: visible;
             }
 
             .gua-explanation {
@@ -803,40 +839,40 @@ export default {
                 height: auto;
                 max-height: none;
                 flex-shrink: 1;
+                overflow: visible;
             }
             
             .result-main {
                 flex-shrink: 0;
                 padding: 0.5vh;
-                max-height: 8vh;
+                max-height: none;
                 gap: 1vw;
+                overflow: visible;
             }
             
-            .gua-symbol { font-size: 4vh; }
-            .gua-name { font-size: 3vh; }
+            .gua-judgment, .gua-explanation, .yao-text, .bian-gua {
+                padding: 0.8vh;
+                flex-shrink: 1;
+            }
             
             .result-left, .result-right {
-                flex: 1;
-                min-height: 0;
-                gap: 0.5vh;
-            }
-            
-            
-            .gua-judgment {
                 flex: 0 0 auto;
-                max-height: 25vh; /* 限制高度，允许滚动 */
-                overflow-y: auto;
+                min-height: 0;
+                gap: 0.8vh;
+                overflow: visible;
             }
-            
-            .result-right {
-                flex: 2; /* 变爻更为重要 */
+
+            .result-right > .bian-gua {
+                flex-shrink: 1;
+                max-height: none;
+                overflow: visible;
             }
             
             /* 调整字号 */
             .result-left h3, .result-right h3 { font-size: 1.8vh; }
             .result-left p, .result-right p, .yao-text div {
                  font-size: 1.4vh;
-                 -webkit-line-clamp: 5;
+                 -webkit-line-clamp: none;
             }
             .yao-text .yao-title { font-size: 1.4vh; }
             .bian-gua h3 { font-size: 1.8vh; }
@@ -2224,7 +2260,7 @@ export default {
             updateStepIndicator(8);
             
             var hexagramBinary = '';
-            for (var i = 0; i < yaoResults.length; i++) {
+            for (var i = yaoResults.length - 1; i >= 0; i--) {
                 hexagramBinary += yaoResults[i].type.isYang ? '1' : '0';
             }
             
@@ -2276,7 +2312,7 @@ export default {
                 
                 // 显示变卦
                 var bianBinary = '';
-                for (var k = 0; k < yaoResults.length; k++) {
+                for (var k = yaoResults.length - 1; k >= 0; k--) {
                     if (yaoResults[k].type.isMoving) {
                         bianBinary += yaoResults[k].type.isYang ? '0' : '1';
                     } else {
@@ -2298,7 +2334,7 @@ export default {
                 yaoTextSection.innerHTML = '<div class="gua-explanation" style="opacity:0.8;"><p>三个动爻，参考变卦。</p></div>';
                 
                 var bianBinary = '';
-                for (var k = 0; k < yaoResults.length; k++) {
+                for (var k = yaoResults.length - 1; k >= 0; k--) {
                     if (yaoResults[k].type.isMoving) {
                         bianBinary += yaoResults[k].type.isYang ? '0' : '1';
                     } else {
@@ -2318,7 +2354,7 @@ export default {
             } else if (movingYaos.length >= 4) {
                 // 4-6个动爻：显示变卦及其静爻爻辞
                 var bianBinary = '';
-                for (var k = 0; k < yaoResults.length; k++) {
+                for (var k = yaoResults.length - 1; k >= 0; k--) {
                     if (yaoResults[k].type.isMoving) {
                         bianBinary += yaoResults[k].type.isYang ? '0' : '1';
                     } else {
